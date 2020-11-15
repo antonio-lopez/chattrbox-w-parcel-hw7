@@ -1,14 +1,10 @@
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import $ from 'jquery';
-// import md5 from 'crypto-js/md5';
-
-var relativeTime = require('dayjs/plugin/relativeTime')
-dayjs.extend(relativeTime)
+import md5 from 'crypto-js/md5';
+import moment from 'moment';
 
 function createGravatarUrl(username) {
-    //let userhash = md5(username);
-    //return `http://www.gravatar.com/avatar/${userhash.toString()}`;
-    let userhash = username;
+    let userhash = md5(username);
     return `http://www.gravatar.com/avatar/${userhash.toString()}`;
 }
 
@@ -60,8 +56,7 @@ export class ChatList {
         $message.append($('<span>', { 
             'class': 'timestamp', 
             'data-time': t,
-            // text: (new Date(t)).getTime() 
-            text: dayjs(t).fromNow()
+            text: moment(t).fromNow()
         }));
 
         $message.append($('<span>', { 
@@ -86,7 +81,7 @@ export class ChatList {
             $('[data-time]').each((idx, element) => {
               let $element = $(element);
               let timestamp = new Date().setTime($element.attr('data-time'));
-              let ago = dayjs(timestamp).fromNow();
+              let ago = moment(timestamp).fromNow();
               $element.html(ago);
             });
           }, 1000);
